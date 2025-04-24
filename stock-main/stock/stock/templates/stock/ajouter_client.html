@@ -1,0 +1,65 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Ajouter un client{% endblock %}
+
+{% block content %}
+<style>
+  .client-form-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  }
+
+  .client-form-container h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+
+  .client-form-container .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .client-form-container input,
+  .client-form-container select,
+  .client-form-container textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 0.25rem;
+  }
+
+  .submit-btn {
+    background: linear-gradient(to right, #7e194e, #ee0979);
+    color: white;
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(to right, #ee0979, #7e194e);
+  }
+</style>
+
+<div class="client-form-container">
+  <h2>👥 Ajouter un client</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="submit-btn">Enregistrer</button>
+  </form>
+</div>
+{% endblock %}

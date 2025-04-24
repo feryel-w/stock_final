@@ -1,0 +1,67 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Modifier le fournisseur{% endblock %}
+
+{% block content %}
+<style>
+  .modifier-fournisseur-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .modifier-fournisseur-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .modifier-fournisseur-container form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .modifier-fournisseur-container button {
+    background-color: #7e194e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .modifier-fournisseur-container button:hover {
+    background-color: #5a1239;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7e194e;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="modifier-fournisseur-container">
+  <h2>✏️ Modifier le fournisseur</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+  </form>
+
+  <a href="{% url 'liste_fournisseurs' %}" class="back-link">
+    🔙 Retour à la liste
+  </a>
+</div>
+{% endblock %}

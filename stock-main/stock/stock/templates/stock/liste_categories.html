@@ -1,0 +1,65 @@
+{% extends 'sidebar.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+
+<div class="category-container">
+    <div class="category-header">
+        <h2>📂 Liste des catégories</h2>
+        <a href="{% url 'ajouter_categorie' %}" class="btn add-btn">➕ Nouvelle catégorie</a>
+    </div>
+
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="🔍 Rechercher..." value="{{ query }}">
+        <button type="submit" class="btn search-btn">Chercher</button>
+    </form>
+
+    <ul class="category-list">
+        {% for c in categories %}
+        <li class="category-item" id="category-{{ c.id }}">
+            <span class="category-name">{{ c.nom }}</span>
+
+            <!-- Edit Form (Initially Hidden) -->
+            <form method="post" action="" class="edit-form" style="display: none;">
+                {% csrf_token %}
+                <input type="text" name="new_name" value="{{ c.nom }}" class="edit-input" required>
+                <input type="hidden" name="category_id" value="{{ c.id }}">
+                <button type="submit" name="edit_category" class="btn save-btn">Save</button>
+            </form>
+
+            <div class="actions">
+                <!-- Edit Button (Toggles Form Visibility) -->
+                <button class="edit-btn" onclick="toggleEditForm({{ c.id }})">✏️</button>
+
+                <!-- Delete Form -->
+                <form action="{% url 'supprimer_categorie' c.id %}" method="post" onsubmit="return confirm('Supprimer {{ c.nom }} ?')">
+                    {% csrf_token %}
+                    <button type="submit" title="Supprimer" class="icon-btn delete-btn">🗑️</button>
+                </form>
+                
+            </div>
+        </li>
+        {% empty %}
+            <li class="empty">Rien à afficher</li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+<script>
+// Function to toggle visibility of the edit form
+function toggleEditForm(categoryId) {
+    const form = document.querySelector(`#category-${categoryId} .edit-form`);
+    const span = document.querySelector(`#category-${categoryId} .category-name`);
+    
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        span.style.display = 'none';  // Hide category name when editing
+    } else {
+        form.style.display = 'none';
+        span.style.display = 'inline';  // Show category name again
+    }
+}
+</script>
+
+{% endblock %}

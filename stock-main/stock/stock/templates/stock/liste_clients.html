@@ -1,0 +1,136 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Liste des clients{% endblock %}
+
+{% block content %}
+<style>
+  .clients-page {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .clients-page h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+
+  .clients-page .actions a.button {
+    background-color: #7e194e;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .clients-page .actions a.button:hover {
+    background-color: #5a1239;
+  }
+
+  .search-form {
+    margin: 20px 0;
+  }
+
+  .search-form input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+
+  .search-form button {
+    padding: 10px 14px;
+    background-color: #7e194e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-form button:hover {
+    background-color: #5a1239;
+  }
+
+  .clients-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .clients-list li {
+    background: white;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .client-actions a,
+  .client-actions button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    margin-left: 12px;
+    cursor: pointer;
+    color: #7e194e;
+  }
+
+  .client-actions button:hover,
+  .client-actions a:hover {
+    color: #5a1239;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7e194e;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="clients-page">
+  <h2>👥 Liste des clients</h2>
+
+  <div class="actions" style="margin-bottom: 20px;">
+    <a href="{% url 'ajouter_client' %}" class="button">➕ Nouveau client</a>
+  </div>
+
+  <form method="get" class="search-form">
+    <input type="text" name="q" placeholder="🔍 Rechercher un client..." value="{{ query }}">
+    <button type="submit">Chercher</button>
+  </form>
+
+  <ul class="clients-list">
+    {% for c in clients %}
+    <li>
+      <span>{{ c.nom }} – {{ c.telephone }}</span>
+      <span class="client-actions">
+        <a href="{% url 'modifier_client' c.id %}">✏️</a>
+        <form action="{% url 'supprimer_client' c.id %}" method="post" onsubmit="return confirm('Supprimer {{ c.nom }} ?')" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit">🗑️</button>
+        </form>
+      </span>
+    </li>
+    {% empty %}
+    <li>Aucun client trouvé.</li>
+    {% endfor %}
+  </ul>
+
+
+</div>
+{% endblock %}

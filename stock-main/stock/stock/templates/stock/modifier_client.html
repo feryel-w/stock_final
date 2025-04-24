@@ -1,0 +1,66 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Modifier un client{% endblock %}
+
+{% block content %}
+<style>
+  .edit-client-container {
+    padding: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .edit-client-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+
+  .edit-client-container form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .edit-client-container form button {
+    background-color: #7e194e;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .edit-client-container form button:hover {
+    background-color: #5a1239;
+  }
+
+  .edit-client-container a {
+    display: inline-block;
+    margin-top: 25px;
+    color: #7e194e;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .edit-client-container a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="edit-client-container">
+  <h2>✏️ Modifier le client</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+  </form>
+
+  <a href="{% url 'liste_clients' %}">🔙 Retour à la liste</a>
+</div>
+{% endblock %}
