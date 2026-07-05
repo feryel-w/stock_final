@@ -1,0 +1,65 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Ajouter un produit{% endblock %}
+
+{% block content %}
+<style>
+  .ajouter-produit-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .ajouter-produit-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .ajouter-produit-container form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .ajouter-produit-container button {
+    background-color: #7e194e;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .ajouter-produit-container button:hover {
+    background-color: #5a1239;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7e194e;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="ajouter-produit-container">
+  <h2>📦 Ajouter un produit</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter</button>
+  </form>
+
+
+</div>
+{% endblock %}

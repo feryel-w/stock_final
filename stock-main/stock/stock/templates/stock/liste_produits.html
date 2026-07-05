@@ -1,0 +1,122 @@
+{% extends "sidebar.html" %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block content %}
+<style>
+  .liste-produits-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .liste-produits-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .liste-produits-container .actions a {
+    background-color: #7e194e;
+    color: white;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .liste-produits-container .actions a:hover {
+    background-color: #5a1239;
+  }
+
+  .liste-produits-container form input,
+  .liste-produits-container form button {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+
+  .liste-produits-container form input {
+    width: 250px;
+  }
+
+  .liste-produits-container form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .liste-produits-container form button:hover {
+    background-color: #0056b3;
+  }
+
+  .liste-produits-container ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .liste-produits-container li {
+    background: white;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .liste-produits-container li span {
+    display: flex;
+    gap: 10px;
+  }
+
+  .liste-produits-container .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7e194e;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .liste-produits-container .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="liste-produits-container">
+  <h2>📦 Liste des produits</h2>
+
+  <div class="actions" style="margin-bottom: 20px;">
+    <a href="{% url 'ajouter_produit' %}" class="button">
+      ➕ Nouveau produit
+    </a>
+  </div>
+
+  <form method="get" style="margin: 10px 0;">
+    <input type="text" name="q" placeholder="🔍 Rechercher..." value="{{ query }}">
+    <button type="submit">Chercher</button>
+  </form>
+
+  <ul>
+    {% for p in produits %}
+      <li>
+        {{ p.nom }} – {{ p.categorie.nom }} – {{ p.fournisseur.nom }} – {{ p.quantite_stock }} – prix achat : {{ p.prix_achat }} - prix vente : {{ p.prix_vente }} unités
+        <span class="client-actions">
+          <a href="{% url 'modifier_produit' p.id %}" style="font-size: 16px;">✏️</a>
+          <form action="{% url 'supprimer_produit' p.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Supprimer {{ p.nom }} ?')" style="background: none; border: none; font-size: 16px; cursor: pointer;">🗑️</button>
+          </form>
+        </span>
+      </li>
+    {% empty %}
+      <li>Rien à afficher</li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}
